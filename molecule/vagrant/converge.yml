@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Include ansible-role-nfs
+      include_role:
+        name: "ansible-role-nfs"
+  vars:
+    nfs_exports:
+      - path: "/var/nfs/folder1"
+        acls: 
+          - 192.168.1.0/24(rw,sync,subtree_check)

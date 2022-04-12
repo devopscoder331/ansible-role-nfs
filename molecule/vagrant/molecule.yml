@@ -1,0 +1,44 @@
+---
+dependency:
+  name: galaxy
+  enable: false
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+platforms:
+  - name: ubuntu-focal
+    box: ubuntu/focal64
+    cpus: 1
+    memory: 512
+    interfaces:
+      # Uncomment one of this blocks to configure Eth connection on the VM
+      #####################################################################
+      # Public Network bridging the host NIC####
+      ##########################################
+      #- network_name: public_network
+      #  ip: <<IP>>
+      #  bridge: <<INTERFACE>>
+      ######################################################################
+      # Private Network using virtual host NIC##
+      ##########################################
+      #- network_name: private_network
+      # ip: <<IP>>
+      # name: <<INTERFACE>>
+    provider_options:
+      gui: no
+    instance_raw_config_args:
+      - "ssh.insert_key = false"
+      - "vm.network 'forwarded_port', guest: 22, host: 2222"
+    config_options:
+      ssh.keep_alive: yes
+      ssh.remote_user: "'vagrant'"
+      synced_folder: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+      callback_whitelist: profile_tasks, timer, yaml
+verifier:
+  name: ansible

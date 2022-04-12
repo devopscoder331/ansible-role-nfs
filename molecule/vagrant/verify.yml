@@ -1,0 +1,13 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Check if nfs-kernel-server is installed
+    package:
+      name: nfs-kernel-server
+      state: present
+    check_mode: true
+    register: install
+    failed_when: (install is changed) or (install is failed)
