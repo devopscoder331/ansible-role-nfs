@@ -1,0 +1,9 @@
+---
+  - name: start nfs server
+    ansible.builtin.service:
+      name: nfs-kernel-server
+      state: started
+      enabled: true
+
+  - name: reload exportfs
+    command: "exportfs -ra"

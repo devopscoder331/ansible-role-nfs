@@ -1,0 +1,11 @@
+---
+# defaults file for ansible_role_nfs
+
+nfs_packages:
+  - nfs-common
+  - nfs-kernel-server
+
+#nfs_exports:
+#  - path: "/var/nfs/folder1"
+#    acls: 
+#      - 192.168.1.0/24(rw,sync,subtree_check)

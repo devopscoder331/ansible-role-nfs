@@ -1,0 +1,28 @@
+---
+  - name: Install nfs server
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+    loop: "{{ nfs_packages }}"
+    notify: 
+      - start nfs server
+
+  - name: Create nfs directory
+    ansible.builtin.file:
+      path: "{{ item.path }}"
+      state: directory
+      owner: nobody
+      group: nogroup
+      mode: '0755'
+    loop: "{{ nfs_exports }}"
+  
+  - name: Create exports config
+    template:
+      src: exports.j2
+      dest: /etc/exports
+      owner: root
+      group: root
+      mode: "0644"
+    notify: 
+      - reload exportfs
